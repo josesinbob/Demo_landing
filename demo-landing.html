@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo · Páginas web para tu negocio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Archivo:wght@400;500;600;700;800&family=Archivo+Narrow:wght@500;600;700&family=Spline+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto}}
+
+  .switcher{position:sticky;top:0;z-index:100;background:#0d0d0f;border-bottom:1px solid #26262c}
+  .switcher-inner{max-width:1120px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .switcher-label{font:600 .68rem/1 'Spline Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6b6b78}
+  .seg{display:flex;gap:5px;background:#17171c;border:1px solid #2a2a31;border-radius:999px;padding:5px}
+  .seg button{font:600 .84rem 'Spline Sans',sans-serif;color:#9a9aa6;background:transparent;border:0;padding:8px 17px;border-radius:999px;cursor:pointer;transition:all .25s;white-space:nowrap}
+  .seg button.active{background:#fff;color:#0d0d0f}
+  .demo-flag{background:#facc15;color:#1a1a1a;text-align:center;font:700 .78rem 'Spline Sans',sans-serif;padding:7px 14px;letter-spacing:.01em}
+
+  #stage{min-height:60vh}
+  .world{display:none}
+  .world.on{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .wa-float{position:fixed;bottom:22px;right:22px;z-index:90;width:58px;height:58px;border-radius:50%;background:#25D366;color:#06251a;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px rgba(37,211,102,.42);text-decoration:none;transition:transform .15s}
+  .wa-float:hover{transform:scale(1.09)}
+  a.lnk{text-decoration:none}
+
+  /* WORLD 1 — BARBERÍA */
+  .bb{--cream:#f3ead7;--cream2:#e9dcc0;--ink:#1c2620;--bottle:#163a2e;--gold:#b58b3c;--gold2:#d9b364;background:var(--cream);color:var(--ink);font-family:'Archivo',sans-serif}
+  .bb .container{max-width:1080px;margin:0 auto;padding:0 24px}
+  .bb-pole{height:8px;background:repeating-linear-gradient(115deg,var(--bottle) 0 14px,var(--cream) 14px 28px,var(--gold) 28px 42px,var(--cream) 42px 56px)}
+  .bb-nav{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;max-width:1080px;margin:0 auto}
+  .bb-logo{font:700 1.35rem 'Oswald',sans-serif;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+  .bb-logo .mark{width:34px;height:34px;border:2px solid var(--bottle);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--bottle)}
+  .bb-nav .est{font:500 .7rem 'Archivo Narrow';letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  .bb-hero{padding:54px 0 30px;text-align:center}
+  .bb-hero .ribbon{display:inline-block;font:600 .72rem 'Archivo Narrow';letter-spacing:.3em;text-transform:uppercase;color:var(--bottle);border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);padding:6px 18px;margin-bottom:26px}
+  .bb-hero h1{font:700 clamp(3rem,9vw,6.4rem)/.92 'Oswald',sans-serif;text-transform:uppercase;letter-spacing:.01em}
+  .bb-hero h1 em{font:italic 500 clamp(2.2rem,6vw,4.2rem) 'Playfair Display',serif;text-transform:none;color:var(--bottle);display:block;margin:2px 0}
+  .bb-hero p{max-width:44ch;margin:22px auto 0;color:#46514a;font-size:1.06rem}
+  .bb-cta{display:flex;gap:12px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+  .bb-btn{font:600 .96rem 'Archivo';padding:14px 26px;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:transform .15s}
+  .bb-btn:active{transform:translateY(1px)}
+  .bb-btn.primary{background:var(--bottle);color:var(--cream)}
+  .bb-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+  .bb-strip{background:var(--bottle);color:var(--cream2);margin-top:44px}
+  .bb-strip .container{display:flex;justify-content:space-around;flex-wrap:wrap;gap:18px;padding:24px}
+  .bb-strip .it{text-align:center}
+  .bb-strip .it b{font:700 1.9rem 'Oswald';color:var(--gold2);display:block}
+  .bb-strip .it span{font:500 .8rem 'Archivo Narrow';letter-spacing:.12em;text-transform:uppercase}
+  .bb-menu{padding:64px 0}
+  .bb-menu .head{text-align:center;margin-bottom:40px}
+  .bb-menu .head .k{font:600 .72rem 'Archivo Narrow';letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+  .bb-menu .head h2{font:700 2.6rem 'Oswald';text-transform:uppercase;margin-top:6px}
+  .bb-list{max-width:680px;margin:0 auto}
+  .bb-row{display:flex;align-items:baseline;gap:14px;padding:16px 0;border-bottom:1px solid var(--cream2)}
+  .bb-row .nm{font:600 1.15rem 'Archivo'}
+  .bb-row .dots{flex:1;border-bottom:1.5px dotted #b9ac8e;transform:translateY(-4px)}
+  .bb-row .pr{font:700 1.25rem 'Oswald';color:var(--bottle)}
+  .bb-row .ds{display:block;font:400 .85rem 'Archivo';color:#6f786f;margin-top:2px}
+  .bb-book{padding:0 0 70px}
+  .bb-book .card{background:var(--ink);color:var(--cream);text-align:center;padding:50px 30px;position:relative;border:1px solid var(--gold)}
+  .bb-book .card .corner{position:absolute;width:18px;height:18px;border:2px solid var(--gold)}
+  .bb-book h2{font:700 2.4rem 'Oswald';text-transform:uppercase;margin-bottom:12px}
+  .bb-book p{color:#c3c9bf;max-width:40ch;margin:0 auto 24px}
+  .bb-foot{background:var(--bottle);color:var(--cream2);padding:30px 0;text-align:center;font:400 .85rem 'Archivo'}
+  .bb-foot .biz{font:700 1.1rem 'Oswald';text-transform:uppercase;letter-spacing:.05em;color:var(--gold2)}
+
+  /* WORLD 2 — TALLER */
+  .tl{--graf:#16181d;--graf2:#1e2128;--steel:#3a3f4b;--line:#2c303a;--orange:#ff6a2c;--amber:#ffb000;--txt:#d6d8de;background:var(--graf);color:var(--txt);font-family:'Spline Sans',sans-serif;background-image:linear-gradient(#2c303a 1px,transparent 1px),linear-gradient(90deg,#2c303a 1px,transparent 1px);background-size:46px 46px}
+  .tl .container{max-width:1080px;margin:0 auto;padding:0 24px}
+  .tl-nav{display:flex;justify-content:space-between;align-items:center;padding:18px 24px;max-width:1080px;margin:0 auto;border-bottom:1px solid var(--line)}
+  .tl-logo{font:700 1.2rem 'Archivo';display:flex;align-items:center;gap:10px}
+  .tl-logo .mark{width:32px;height:32px;background:var(--orange);color:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:1rem;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+  .tl-code{font:500 .72rem 'JetBrains Mono';color:#6b7180;letter-spacing:.05em}
+  .tl-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:46px;align-items:center;padding:56px 0}
+  .tl-tag{display:inline-flex;align-items:center;gap:8px;font:700 .72rem 'JetBrains Mono';letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:18px}
+  .tl-tag::before{content:"";width:9px;height:9px;background:var(--amber);border-radius:50%;box-shadow:0 0 10px var(--amber)}
+  .tl-hero h1{font:800 clamp(2.5rem,6.5vw,4.6rem)/.98 'Archivo';text-transform:uppercase;color:#fff}
+  .tl-hero h1 span{color:var(--orange)}
+  .tl-hero p{color:#9aa0ad;font-size:1.08rem;margin-top:18px;max-width:42ch}
+  .tl-cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+  .tl-btn{font:600 .95rem 'Spline Sans';padding:14px 24px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;border-radius:3px;transition:transform .15s;text-transform:uppercase;letter-spacing:.03em}
+  .tl-btn:active{transform:translateY(1px)}
+  .tl-btn.primary{background:var(--orange);color:#1a1a1a}
+  .tl-btn.ghost{background:transparent;color:#fff;border:1px solid var(--steel)}
+  .tl-diag{background:var(--graf2);border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+  .tl-diag .bar{background:var(--steel);padding:11px 16px;display:flex;justify-content:space-between;align-items:center;font:700 .72rem 'JetBrains Mono';letter-spacing:.1em;text-transform:uppercase;color:#cfd3da}
+  .tl-diag .bar .dot{width:9px;height:9px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;display:inline-block;margin-right:7px}
+  .tl-diag .body{padding:18px 16px}
+  .tl-diag .ln{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line);font:500 .86rem 'JetBrains Mono'}
+  .tl-diag .ln span:first-child{color:#7d838f}
+  .tl-diag .ln span:last-child{color:#fff}
+  .tl-diag .ok{color:#4ade80!important}
+  .tl-diag .foot{padding:14px 16px;background:#15171c;font:500 .76rem 'JetBrains Mono';color:#6b7180;text-align:center}
+  .tl-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(20,22,27,.7)}
+  .tl-strip .container{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:26px 24px}
+  .tl-strip .it b{font:800 2rem 'Archivo';color:var(--orange);display:block}
+  .tl-strip .it span{font:500 .82rem 'Spline Sans';color:#9aa0ad}
+  .tl-svc{padding:60px 0}
+  .tl-svc .head{margin-bottom:34px}
+  .tl-svc .head .k{font:700 .72rem 'JetBrains Mono';letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+  .tl-svc .head h2{font:800 2.4rem 'Archivo';text-transform:uppercase;color:#fff;margin-top:6px}
+  .tl-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .tl-item{display:flex;align-items:center;gap:14px;background:var(--graf2);border:1px solid var(--line);border-left:3px solid var(--orange);padding:16px 18px;border-radius:4px}
+  .tl-item .no{font:700 .8rem 'JetBrains Mono';color:#5a606c;min-width:28px}
+  .tl-item .nm{font:600 1.05rem 'Spline Sans';color:#fff}
+  .tl-item .ds{font:400 .82rem 'Spline Sans';color:#8a909c}
+  .tl-item .pr{margin-left:auto;font:700 1.05rem 'Archivo';color:var(--amber);white-space:nowrap}
+  .tl-book{padding:0 0 66px}
+  .tl-book .card{background:linear-gradient(135deg,var(--orange),#e0531c);color:#1a1a1a;padding:46px 30px;border-radius:6px;text-align:center}
+  .tl-book h2{font:800 2.3rem 'Archivo';text-transform:uppercase;margin-bottom:10px}
+  .tl-book p{max-width:44ch;margin:0 auto 22px;font-weight:500;opacity:.85}
+  .tl-foot{border-top:1px solid var(--line);padding:30px 0;text-align:center;font:400 .84rem 'Spline Sans';color:#8a909c}
+  .tl-foot .biz{font:700 1.1rem 'Archivo';text-transform:uppercase;color:#fff}
+
+  /* WORLD 3 — CLÍNICA / GIMNASIO */
+  .cl{--bg:#f6f8f5;--card:#fff;--ink:#1d2b26;--sage:#5b8c7b;--sage2:#7faa9a;--mint:#dceee6;--line:#e3eae5;--txt:#4a5a53;background:var(--bg);color:var(--ink);font-family:'Spline Sans',sans-serif}
+  .cl .container{max-width:1080px;margin:0 auto;padding:0 24px}
+  .cl-nav{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;max-width:1080px;margin:0 auto}
+  .cl-logo{font:600 1.3rem 'Fraunces',serif;display:flex;align-items:center;gap:10px}
+  .cl-logo .mark{width:36px;height:36px;background:var(--mint);color:var(--sage);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+  .cl-nav .ph{font:600 .85rem 'Spline Sans';color:var(--sage)}
+  .cl-hero{display:grid;grid-template-columns:1fr .92fr;gap:50px;align-items:center;padding:50px 0 40px}
+  .cl-eye{display:inline-flex;align-items:center;gap:8px;font:600 .76rem 'Spline Sans';letter-spacing:.04em;color:var(--sage);background:var(--mint);padding:7px 15px;border-radius:999px;margin-bottom:20px}
+  .cl-hero h1{font:600 clamp(2.4rem,5.5vw,3.9rem)/1.05 'Fraunces',serif;letter-spacing:-.01em}
+  .cl-hero h1 em{font-style:italic;color:var(--sage)}
+  .cl-hero p{color:var(--txt);font-size:1.1rem;margin-top:20px;max-width:42ch}
+  .cl-cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+  .cl-btn{font:600 .96rem 'Spline Sans';padding:14px 26px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:9px;transition:transform .15s}
+  .cl-btn:active{transform:translateY(1px)}
+  .cl-btn.primary{background:var(--sage);color:#fff}
+  .cl-btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .cl-appt{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 24px 50px -20px rgba(91,140,123,.3)}
+  .cl-appt .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .cl-appt .top .d{font:600 1.05rem 'Fraunces',serif}
+  .cl-appt .top .m{font:600 .74rem 'Spline Sans';color:var(--sage);background:var(--mint);padding:5px 12px;border-radius:999px}
+  .cl-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .cl-slot{text-align:center;padding:11px 6px;border:1px solid var(--line);border-radius:11px;font:600 .9rem 'Spline Sans';cursor:default}
+  .cl-slot.free{color:var(--sage);border-color:var(--sage2)}
+  .cl-slot.free:hover{background:var(--mint)}
+  .cl-slot.busy{color:#b9c2bd;text-decoration:line-through;background:#f2f4f2}
+  .cl-slot.pick{background:var(--sage);color:#fff;border-color:var(--sage)}
+  .cl-appt .note{margin-top:14px;font:400 .82rem 'Spline Sans';color:var(--txt);text-align:center}
+  .cl-strip{background:var(--sage);color:#eaf3ef}
+  .cl-strip .container{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:30px 24px}
+  .cl-strip .it b{font:600 2.1rem 'Fraunces',serif;display:block}
+  .cl-strip .it span{font:400 .85rem 'Spline Sans';opacity:.85}
+  .cl-svc{padding:62px 0}
+  .cl-svc .head{text-align:center;margin-bottom:38px}
+  .cl-svc .head .k{font:600 .76rem 'Spline Sans';letter-spacing:.06em;color:var(--sage);text-transform:uppercase}
+  .cl-svc .head h2{font:600 2.5rem 'Fraunces',serif;margin-top:6px}
+  .cl-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .cl-c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;transition:transform .2s,box-shadow .2s}
+  .cl-c:hover{transform:translateY(-4px);box-shadow:0 16px 36px -18px rgba(91,140,123,.35)}
+  .cl-c .ic{width:44px;height:44px;background:var(--mint);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:14px}
+  .cl-c .nm{font:600 1.15rem 'Fraunces',serif}
+  .cl-c .ds{font:400 .9rem 'Spline Sans';color:var(--txt);margin:5px 0 12px}
+  .cl-c .pr{font:600 1.2rem 'Spline Sans';color:var(--sage)}
+  .cl-book{padding:0 0 70px}
+  .cl-book .card{background:linear-gradient(150deg,var(--sage),#46715f);color:#fff;border-radius:24px;padding:50px 34px;text-align:center}
+  .cl-book h2{font:600 2.4rem 'Fraunces',serif;margin-bottom:12px}
+  .cl-book p{max-width:42ch;margin:0 auto 24px;opacity:.9}
+  .cl-foot{padding:34px 0;text-align:center;font:400 .86rem 'Spline Sans';color:var(--txt);border-top:1px solid var(--line)}
+  .cl-foot .biz{font:600 1.15rem 'Fraunces',serif;color:var(--ink)}
+
+  .pablo{font:400 .76rem 'Spline Sans';opacity:.6;margin-top:8px}
+  .pablo a{color:inherit;font-weight:600}
+
+  @media(max-width:840px){
+    .tl-hero,.cl-hero{grid-template-columns:1fr;gap:32px}
+    .tl-grid,.cl-cards{grid-template-columns:1fr}
+    .tl-strip .container,.cl-strip .container{grid-template-columns:1fr;text-align:center;gap:14px}
+    .switcher-label{display:none}.switcher-inner{justify-content:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-flag">DEMO — Mira cómo se vería tu negocio. Cambia de rubro aquí 👇</div>
+
+<div class="switcher">
+  <div class="switcher-inner">
+    <span class="switcher-label">Ver ejemplo para</span>
+    <div class="seg" role="tablist">
+      <button data-w="bb" class="active">💈 Barbería</button>
+      <button data-w="tl">🔧 Taller</button>
+      <button data-w="cl">🩺 Clínica / Gym</button>
+    </div>
+  </div>
+</div>
+
+<div id="stage">
+
+  <!-- WORLD 1 · BARBERÍA -->
+  <div class="world on bb" id="bb">
+    <div class="bb-pole"></div>
+    <nav class="bb-nav">
+      <div class="bb-logo"><span class="mark">✂</span> Barbería El Corte</div>
+      <span class="est">Est. 2014 · Zona 10</span>
+    </nav>
+    <section class="bb-hero">
+      <div class="container">
+        <span class="ribbon">Caballeros · Ciudad de Guatemala</span>
+        <h1>El arte del<em>buen corte</em>y la navaja</h1>
+        <p>Reserva tu silla sin hacer cola. Mira nuestros estilos, precios y horarios, y aparta tu turno por WhatsApp en segundos.</p>
+        <div class="bb-cta">
+          <a class="bb-btn primary lnk wa"><span>Reservar por WhatsApp</span></a>
+          <a class="bb-btn ghost lnk" href="#bb-menu">Ver la carta</a>
+        </div>
+      </div>
+    </section>
+    <div class="bb-strip">
+      <div class="container">
+        <div class="it"><b>+1,200</b><span>cortes al año</span></div>
+        <div class="it"><b>4.9★</b><span>en Google</span></div>
+        <div class="it"><b>15 min</b><span>reserva por WhatsApp</span></div>
+        <div class="it"><b>11 años</b><span>de tradición</span></div>
+      </div>
+    </div>
+    <section class="bb-menu" id="bb-menu">
+      <div class="container">
+        <div class="head"><div class="k">La Carta</div><h2>Servicios y Precios</h2></div>
+        <div class="bb-list">
+          <div class="bb-row"><div><span class="nm">Corte Clásico</span><span class="ds">Tijera y máquina, a tu estilo</span></div><span class="dots"></span><span class="pr">Q60</span></div>
+          <div class="bb-row"><div><span class="nm">Corte + Barba</span><span class="ds">El combo completo del caballero</span></div><span class="dots"></span><span class="pr">Q90</span></div>
+          <div class="bb-row"><div><span class="nm">Afeitado a Navaja</span><span class="ds">Toalla caliente y ritual clásico</span></div><span class="dots"></span><span class="pr">Q55</span></div>
+          <div class="bb-row"><div><span class="nm">Diseño y Líneas</span><span class="ds">Detalles y degradados a mano</span></div><span class="dots"></span><span class="pr">Q75</span></div>
+          <div class="bb-row"><div><span class="nm">Corte Junior</span><span class="ds">Menores de 12 años</span></div><span class="dots"></span><span class="pr">Q45</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="bb-book">
+      <div class="container">
+        <div class="card">
+          <span class="corner" style="top:8px;left:8px;border-right:0;border-bottom:0"></span>
+          <span class="corner" style="top:8px;right:8px;border-left:0;border-bottom:0"></span>
+          <span class="corner" style="bottom:8px;left:8px;border-right:0;border-top:0"></span>
+          <span class="corner" style="bottom:8px;right:8px;border-left:0;border-top:0"></span>
+          <h2>Tu silla te espera</h2>
+          <p>Aparta tu turno por WhatsApp y llega sin esperar. Te confirmamos en minutos.</p>
+          <a class="bb-btn primary lnk wa" style="background:var(--gold);color:var(--ink)"><span>Reservar ahora</span></a>
+        </div>
+      </div>
+    </section>
+    <footer class="bb-foot">
+      <div class="biz">Barbería El Corte</div>
+      <div>5a Avenida 12-30, Zona 10 · Ciudad de Guatemala · Lun–Sáb</div>
+      <div class="pablo">Demo de página web · por <a href="#">Pablo Nájera</a> · WhatsApp 0000-0000</div>
+    </footer>
+  </div>
+
+  <!-- WORLD 2 · TALLER -->
+  <div class="world tl" id="tl">
+    <nav class="tl-nav">
+      <div class="tl-logo"><span class="mark">⚙</span> AutoServicio Pérez</div>
+      <span class="tl-code">REG. 502 · ZONA 11 · EST.2003</span>
+    </nav>
+    <section class="tl-hero container">
+      <div>
+        <span class="tl-tag">Taller en línea · Diagnóstico</span>
+        <h1>Tu carro<br>en <span>buenas manos</span></h1>
+        <p>Pide tu cita y cotización por WhatsApp. Diagnóstico honesto, repuestos garantizados y entrega a tiempo.</p>
+        <div class="tl-cta">
+          <a class="tl-btn primary lnk wa"><span>Cotizar por WhatsApp</span></a>
+          <a class="tl-btn ghost lnk" href="#tl-svc">Ver servicios</a>
+        </div>
+      </div>
+      <div class="tl-diag">
+        <div class="bar"><span><span class="dot"></span>DIAGNÓSTICO · OBD-II</span><span>LISTO</span></div>
+        <div class="body">
+          <div class="ln"><span>Vehículo</span><span>Ingresa el tuyo →</span></div>
+          <div class="ln"><span>Motor</span><span class="ok">● Óptimo</span></div>
+          <div class="ln"><span>Frenos</span><span class="ok">● Revisado</span></div>
+          <div class="ln"><span>Batería</span><span>12.6 V</span></div>
+          <div class="ln"><span>Próximo servicio</span><span>5,000 km</span></div>
+        </div>
+        <div class="foot">Cotización el mismo día · sin compromiso</div>
+      </div>
+    </section>
+    <div class="tl-strip">
+      <div class="container">
+        <div class="it"><b>+20</b><span>años de experiencia</span></div>
+        <div class="it"><b>4.8★</b><span>calificación en Google</span></div>
+        <div class="it"><b>Mismo día</b><span>cotización por WhatsApp</span></div>
+      </div>
+    </div>
+    <section class="tl-svc" id="tl-svc">
+      <div class="container">
+        <div class="head"><div class="k">// CATÁLOGO DE SERVICIOS</div><h2>Qué hacemos por tu vehículo</h2></div>
+        <div class="tl-grid">
+          <div class="tl-item"><span class="no">01</span><div><div class="nm">Cambio de aceite</div><div class="ds">Aceite + filtro</div></div><span class="pr">desde Q250</span></div>
+          <div class="tl-item"><span class="no">02</span><div><div class="nm">Diagnóstico computarizado</div><div class="ds">Escáner OBD-II</div></div><span class="pr">Q150</span></div>
+          <div class="tl-item"><span class="no">03</span><div><div class="nm">Sistema de frenos</div><div class="ds">Pastillas y discos</div></div><span class="pr">desde Q400</span></div>
+          <div class="tl-item"><span class="no">04</span><div><div class="nm">Alineación y balanceo</div><div class="ds">Las 4 ruedas</div></div><span class="pr">Q200</span></div>
+          <div class="tl-item"><span class="no">05</span><div><div class="nm">Servicio de batería</div><div class="ds">Prueba e instalación</div></div><span class="pr">desde Q90</span></div>
+          <div class="tl-item"><span class="no">06</span><div><div class="nm">Revisión 45 puntos</div><div class="ds">Chequeo general</div></div><span class="pr">Q180</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="tl-book">
+      <div class="container">
+        <div class="card">
+          <h2>¿Tu carro necesita revisión?</h2>
+          <p>Mándanos la marca, modelo y año por WhatsApp y te damos cotización el mismo día.</p>
+          <a class="tl-btn lnk wa" style="background:#1a1a1a;color:#fff"><span>Escribir al taller</span></a>
+        </div>
+      </div>
+    </section>
+    <footer class="tl-foot">
+      <div class="biz">AutoServicio Pérez</div>
+      <div>Calzada San Juan 8-20, Zona 11 · Ciudad de Guatemala · Lun–Sáb</div>
+      <div class="pablo">Demo de página web · por <a href="#">Pablo Nájera</a> · WhatsApp 0000-0000</div>
+    </footer>
+  </div>
+
+  <!-- WORLD 3 · CLÍNICA / GIMNASIO -->
+  <div class="world cl" id="cl">
+    <nav class="cl-nav">
+      <div class="cl-logo"><span class="mark">✚</span> Centro Vida Sana</div>
+      <span class="ph">📞 2200-0000</span>
+    </nav>
+    <section class="cl-hero container">
+      <div>
+        <span class="cl-eye">✦ Salud y bienestar · Zona 14</span>
+        <h1>Cuida tu salud, <em>sin complicarte</em> la agenda</h1>
+        <p>Agenda tu cita o tu clase en segundos. Conoce a nuestro equipo, los planes y horarios, y reserva por WhatsApp.</p>
+        <div class="cl-cta">
+          <a class="cl-btn primary lnk wa"><span>Agendar por WhatsApp</span></a>
+          <a class="cl-btn ghost lnk" href="#cl-svc">Ver planes</a>
+        </div>
+      </div>
+      <div class="cl-appt">
+        <div class="top"><span class="d">Hoy · Disponibilidad</span><span class="m">Marzo</span></div>
+        <div class="cl-slots">
+          <div class="cl-slot busy">8:00</div>
+          <div class="cl-slot free">9:00</div>
+          <div class="cl-slot free">10:00</div>
+          <div class="cl-slot busy">11:00</div>
+          <div class="cl-slot pick">12:00</div>
+          <div class="cl-slot free">15:00</div>
+          <div class="cl-slot free">16:00</div>
+          <div class="cl-slot busy">17:00</div>
+          <div class="cl-slot free">18:00</div>
+        </div>
+        <div class="note">Elige tu hora y confírmala por WhatsApp en un toque</div>
+      </div>
+    </section>
+    <div class="cl-strip">
+      <div class="container">
+        <div class="it"><b>+800</b><span>pacientes y socios activos</span></div>
+        <div class="it"><b>4.9★</b><span>calificación en Google</span></div>
+        <div class="it"><b>7 días</b><span>agenda abierta por WhatsApp</span></div>
+      </div>
+    </div>
+    <section class="cl-svc" id="cl-svc">
+      <div class="container">
+        <div class="head"><div class="k">Servicios y planes</div><h2>Todo para tu bienestar</h2></div>
+        <div class="cl-cards">
+          <div class="cl-c"><div class="ic">🩺</div><div class="nm">Consulta general</div><div class="ds">Atención con médico colegiado</div><div class="pr">Q200</div></div>
+          <div class="cl-c"><div class="ic">🏋️</div><div class="nm">Plan mensual gym</div><div class="ds">Acceso completo al equipo</div><div class="pr">Q250 / mes</div></div>
+          <div class="cl-c"><div class="ic">🥗</div><div class="nm">Nutrición</div><div class="ds">Plan alimenticio personalizado</div><div class="pr">Q300</div></div>
+          <div class="cl-c"><div class="ic">💪</div><div class="nm">Entrenador personal</div><div class="ds">Sesión uno a uno</div><div class="pr">Q150</div></div>
+          <div class="cl-c"><div class="ic">🧘</div><div class="nm">Fisioterapia</div><div class="ds">Por sesión</div><div class="pr">Q180</div></div>
+          <div class="cl-c"><div class="ic">❤️</div><div class="nm">Chequeo preventivo</div><div class="ds">Paquete completo</div><div class="pr">Q450</div></div>
+        </div>
+      </div>
+    </section>
+    <section class="cl-book">
+      <div class="container">
+        <div class="card">
+          <h2>Da el primer paso hoy</h2>
+          <p>Agenda tu consulta o tu clase de prueba por WhatsApp. Te respondemos enseguida.</p>
+          <a class="cl-btn lnk wa" style="background:#fff;color:var(--sage)"><span>Agendar ahora</span></a>
+        </div>
+      </div>
+    </section>
+    <footer class="cl-foot">
+      <div class="biz">Centro Vida Sana</div>
+      <div>Boulevard Los Próceres 18-50, Zona 14 · Ciudad de Guatemala</div>
+      <div class="pablo">Demo de página web · por <a href="#">Pablo Nájera</a> · WhatsApp 0000-0000</div>
+    </footer>
+  </div>
+
+</div>
+
+<a class="wa-float lnk wa" aria-label="WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.8 4.9-1.3A10 10 0 1 0 12 2zm0 18.3c-1.5 0-3-.4-4.3-1.2l-.3-.2-2.9.8.8-2.8-.2-.3A8.3 8.3 0 1 1 12 20.3zm4.6-6.2c-.3-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.6.1a6.8 6.8 0 0 1-3.4-3c-.3-.5.3-.4.7-1.4.1-.2 0-.4 0-.5L9 7.7c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3A2.9 2.9 0 0 0 6.3 10c0 1.7 1.3 3.4 1.5 3.6s2.5 3.8 6 5.1c2.2.8 3 .6 3.6.5a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .2-1.2c-.1-.1-.3-.2-.6-.3z"/></svg>
+</a>
+
+<script>
+  const WA = "https://wa.me/50200000000?text=Hola,%20vi%20la%20demo%20y%20quiero%20mi%20p%C3%A1gina%20web";
+  document.querySelectorAll('a.wa').forEach(a=>a.href=WA);
+  const worlds = {bb:document.getElementById('bb'),tl:document.getElementById('tl'),cl:document.getElementById('cl')};
+  document.querySelectorAll('.seg button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.seg button').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      Object.values(worlds).forEach(w=>w.classList.remove('on'));
+      worlds[btn.dataset.w].classList.add('on');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
